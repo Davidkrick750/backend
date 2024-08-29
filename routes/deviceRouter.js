@@ -16,7 +16,7 @@ router.post('/auth', deviceController.auth)
 router.post('/reg', deviceController.reg)
 
 
-router.post('/setcatalog', deviceController.setcatalog)
+router.get('/setcatalog', deviceController.setcatalog)
 
 router.post('/createbasketitem', deviceController.createbasketitem)
 router.post('/checkbasket', deviceController.checkBasket)
@@ -42,6 +42,8 @@ router.post('/gellove_', deviceController.gellove_)
 router.post('/createOrder', deviceController.createOrder)
 router.post('/getOrder', deviceController.getOrder)
 
+router.get('/generateSitemap', deviceController.generateSitemap)
+router.get('/createfilegoogle', deviceController.createFileGoogle)
 
 
 // router.post('/getSchetchiki', deviceController.getSchetchiki)

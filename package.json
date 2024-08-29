@@ -29,6 +29,7 @@
     "swiper": "^11.1.5",
     "uuid": "^9.0.0",
     "xlsx": "^0.18.5",
+    "xmlbuilder": "^15.1.1",
     "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {

@@ -10,6 +10,8 @@ var request = require('request');
 const axios = require('axios')
 const { Sequelize } = require('sequelize');
 const reader = require('xlsx') 
+const xmlbuilder = require('xmlbuilder');
+
 const generateJwt = (id) => {
   return jwt.sign(
       {id},
@@ -54,7 +56,7 @@ async reg(req, res, next) {
 
   
     // Reading our test file 
-    const file = reader.readFile('dildos.xlsx') 
+    const file = reader.readFile('./kitchen/coffe_mcahin.xlsx') 
       
     let data = [] 
     var id = 0
@@ -79,7 +81,7 @@ async reg(req, res, next) {
     data.map(  async (item,index)=>
 
  { 
-  const arrSkidka = [0,25,35,50]
+  const arrSkidka = [0,25,35,0,50]
   const skidka1 = getRandom(arrSkidka,1)
   function getRandom(arr, n) {
     var result = new Array(n),
@@ -100,10 +102,12 @@ console.log(index)
     const name = data[index].Name 
     const price1 = data[index].Price 
     const price = price1.substring(1, 10)
+    // const price = 100
     const description_value = data[index].desc 
     const skidka = skidka1[0]
     const description_title = 'Information about the product'
-    let trimmedString = description_value.substring(0,60)
+    let trimmedString = description_value.substring(0,130)
+   
     const description0 = `${trimmedString}...`
 
    
@@ -111,9 +115,13 @@ console.log(index)
    
     let specifications = ''
     
-     
+
+
        
     let i = 0;
+    let i1 = 0;
+    let i2 = 0;
+
 while  (i < ind) { 
 
   // if(data[index]['photo1-src']!= ''&& data[index]['photo1-src']!= null){
@@ -121,7 +129,6 @@ while  (i < ind) {
     
   //   const itemphoto = await Item_photo.create({photo,ItemId})
   //  }
-  console.log(index-i)
 
   if(data[index-i].Specifications!= ''){
     specifications = specifications + ', ' + data[index-i].Specifications
@@ -129,7 +136,7 @@ while  (i < ind) {
   i++
      }
   let dop_info = specifications
-  const CategoriumId = 2
+  const CategoriumId = 6
 
   var device =  await Item.create({name,price,skidka,description0,description_title,description_value,dop_info,CategoriumId})
   ids.push(device.id)
@@ -162,7 +169,7 @@ while  (i < ind) {
 
     //   }
     //   )
-      console.log(specifications)
+      // console.log(specifications)
     ind=0
     
   }else{
@@ -577,6 +584,106 @@ async deleteLove(req, res) {
 
 
   
+async generateSitemap(req, res){
+  const products = await Item.findAll();
+
+  const sitemap = `
+  <?xml version="1.0" encoding="UTF-8"?>
+  <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+      <loc>https://wet-love.com/</loc>
+  </url>
+  <url>
+      <loc>https://wet-love.com/store</loc>
+  </url>
+
+    <url>
+      <loc>https://wet-love.com/cart</loc>
+  </url>
+
+    <url>
+      <loc>https://wet-love.com/checkout</loc>
+  </url>
+
+    <url>
+      <loc>https://wet-love.com/Complete</loc>
+  </url>
+
+    <url>
+      <loc>https://wet-love.com/FAQ</loc>
+  </url>
+    <url>
+      <loc>https://wet-love.com/Account</loc>
+  </url>
+    <url>
+      <loc>https://wet-love.com/Order</loc>
+  </url>
+
+      <url>
+      <loc>https://wet-love.com/Vibrators</loc>
+  </url>
+      <url>
+      <loc>https://wet-love.com/Dildos</loc>
+  </url>
+      <url>
+      <loc>https://wet-love.com/Male_Toys</loc>
+  </url>
+      <url>
+      <loc>https://wet-love.com/New_Sale</loc>
+  </url>
+      ${products
+          .map((page) => {
+              return `
+            <url>
+                <loc>${`https://wet-love.com/item/${page.id}`}</loc>
+            </url>
+          `;
+          })
+          .join("")}
+  </urlset>
+  `;
+
+  fs.writeFileSync("sitemap.xml", sitemap);
+  console.log("genarated Sitemap successfully");
+  return;
+};
+async createFileGoogle(req, res) {
+
+  const persons = await Item.findAll({
+    include: [{model: Item_photo, as: 'Item_photo'}]
+  })
+  // Create a new XML document with a list of persons
+  const xml = xmlbuilder.create('root');
+  persons.forEach(person => {
+    const desc =  `${person.description_value.slice(0,150)}...`
+    const im = `https://wet-love.com/item/${person.id}`
+    const sale=(person.price*((100-person.skidka)/100)).toFixed(2)
+    
+    if(person.Item_photo[0]){
+      const im1 = person.Item_photo[0].photo
+      xml.ele('id',  person.id)
+      .ele('title', person.name)
+      .ele('description', desc)
+      .ele('link',im )
+      .ele('image_link',im1 )
+      .ele('availability', 'in stock')
+      .ele('price', person.price)
+      .ele('sale_price',sale )
+      .ele('condition', 'New')
+      .ele('identifier_exists', 'no')
+      .ele('brand', person.name)
+      .ele('age_group', 'adult')
+    }
+
+  });
+  xml.end({ pretty: true });
+
+  fs.writeFileSync("file.xml", xml.toString());
+  console.log('sucsess')
+  return;
+
+}
+
 
 
 }

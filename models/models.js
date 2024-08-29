@@ -4,33 +4,33 @@ const {DataTypes} = require('sequelize')
 
 const User = sequelize.define('User', {
     id:  {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    first_name: {type: DataTypes.STRING,defaultValue:'User'},
-    adres_delivery: {type: DataTypes.STRING},
-    phone: {type: DataTypes.STRING},
-    number_schet: {type: DataTypes.STRING},
-    password: {type: DataTypes.STRING},
-    email: {type: DataTypes.STRING},
+    first_name: {type: DataTypes.TEXT,defaultValue:'User'},
+    adres_delivery: {type: DataTypes.TEXT},
+    phone: {type: DataTypes.TEXT},
+    number_schet: {type: DataTypes.TEXT},
+    password: {type: DataTypes.TEXT},
+    email: {type: DataTypes.TEXT},
 })
 
 
 const Categoria = sequelize.define('Categoria', {
     id:  {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    name: {type: DataTypes.STRING},
-    nach_price:{type: DataTypes.STRING},
+    name: {type: DataTypes.TEXT},
+    nach_price:{type: DataTypes.TEXT},
     photo:{type: DataTypes.TEXT},
 })
 
 
 const Item = sequelize.define('Item', {
     id:  {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    name: {type: DataTypes.STRING},
+    name: {type: DataTypes.TEXT},
     price: {type: DataTypes.FLOAT},
     skidka: {type: DataTypes.INTEGER},
-    description0: {type: DataTypes.STRING},
-    description_title: {type: DataTypes.STRING},
-    description_value: {type: DataTypes.STRING},
-    dop_info: {type: DataTypes.STRING},
-    delivery: {type: DataTypes.STRING},
+    description0: {type: DataTypes.TEXT},
+    description_title: {type: DataTypes.TEXT},
+    description_value: {type: DataTypes.TEXT},
+    dop_info: {type: DataTypes.TEXT},
+    delivery: {type: DataTypes.TEXT},
 })
 
 const Item_photo = sequelize.define('Item_photo', {
@@ -40,42 +40,42 @@ const Item_photo = sequelize.define('Item_photo', {
 const Basket_Item = sequelize.define('Basket_Item', {
     id:  {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     photo: {type: DataTypes.TEXT},
-    name: {type: DataTypes.STRING},
-    description: {type: DataTypes.STRING},
-    qauantity: {type: DataTypes.STRING},
-    price: {type: DataTypes.STRING},
+    name: {type: DataTypes.TEXT},
+    description: {type: DataTypes.TEXT},
+    qauantity: {type: DataTypes.TEXT},
+    price: {type: DataTypes.TEXT},
     skidka: {type: DataTypes.INTEGER},
 
 })
 
 const Order_Item = sequelize.define('Order_Item', {
     id:  {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    photo: {type: DataTypes.STRING},
-    name: {type: DataTypes.STRING},
-    description: {type: DataTypes.STRING},
-    qauantity: {type: DataTypes.STRING},
-    price: {type: DataTypes.STRING},
+    photo: {type: DataTypes.TEXT},
+    name: {type: DataTypes.TEXT},
+    description: {type: DataTypes.TEXT},
+    qauantity: {type: DataTypes.TEXT},
+    price: {type: DataTypes.TEXT},
 })
 
 const Order= sequelize.define('Order', {
     id:  {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
 
-    Name: {type: DataTypes.STRING},
-    Familia: {type: DataTypes.STRING},
-    Phone: {type: DataTypes.STRING},
-    Mail: {type: DataTypes.STRING},
+    Name: {type: DataTypes.TEXT},
+    Familia: {type: DataTypes.TEXT},
+    Phone: {type: DataTypes.TEXT},
+    Mail: {type: DataTypes.TEXT},
 
 
-    adres: {type: DataTypes.STRING},
-    price: {type: DataTypes.STRING},
-    description: {type: DataTypes.STRING},
+    adres: {type: DataTypes.TEXT},
+    price: {type: DataTypes.TEXT},
+    description: {type: DataTypes.TEXT},
 
 })
 
 const ItemPhoto= sequelize.define('ItemPhoto', {
     id:  {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    color: {type: DataTypes.STRING},
-    description: {type: DataTypes.STRING},
+    color: {type: DataTypes.TEXT},
+    description: {type: DataTypes.TEXT},
 
 })
 const Love= sequelize.define('Love', {
@@ -123,6 +123,7 @@ Basket_Item.belongsTo(Item)
 module.exports = {
     Love,
 User,
+ItemPhoto,
 Order,
 Order_Item,
 Categoria,
